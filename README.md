@@ -1,100 +1,131 @@
-# Garage_mania
+Django Project Setup
+1. Create Virtual Environment
+python -m venv folder_name
 
-1. To create virtual environment in folder we using:
-   python -m venv folder_name
-2. To activate virtual environment:
-   folder_name\Scripts\activate
-3. To deactivate the virtual environment:
-   deactivate
-4. For installing Django in our virtual environment we use:
-   pip install django
-5. To start project in virtual environment:
-   django-admin startproject project_name
+2. Activate Virtual Environment
 
-These command will create a new django project in current directory
-Resulting Structure:
+Windows:
+
+folder_name\Scripts\activate
+
+
+Linux/Mac:
+
+source folder_name/bin/activate
+
+3. Deactivate Virtual Environment
+deactivate
+
+4. Install Django
+pip install django
+
+5. Start Django Project
+django-admin startproject project_name
+
+
+This command will create a new Django project in the current directory.
+
+📂 Resulting Structure After Creating Project
 python program/
 │
-├── Garage_Mania/         ← Virtual Environment
+├── Garage_Mania/             ← Virtual Environment
 │   ├── Include/
 │   ├── Lib/
 │   ├── Scripts/
 │   └── pyvenv.cfg
 │
-├── Online_garage/        ← Django Project folder
-│   ├── __init__.py     // Makes a folder a python package
-│   ├── settings.py     // This is for configuration file for your project controls settings like Installed apps, Middleware Databases.
-│   ├── urls.py        // Controls which URL go to which views
-│   ├── wsgi.py        // Stands for Web Server Gateway Interface used to deploy your django app on production server
-│   └── asgi.py        // Similar to wsgi.py but for asynchronous support.
+├── Online_garage/            ← Django Project folder
+│   ├── __init__.py           # Makes this folder a Python package
+│   ├── settings.py           # Configuration file for project (apps, middleware, databases)
+│   ├── urls.py               # Controls which URL goes to which view
+│   ├── wsgi.py               # Web Server Gateway Interface (for deployment)
+│   └── asgi.py               # Asynchronous Server Gateway Interface
 │
-├── db.sqlite3            ← Django Database file
-├── manage.py             ← Django entry point
+├── db.sqlite3                ← Django Database file
+└── manage.py                 ← Django entry point
 
-       
-6. After creating the project run:
-   cd my_aps
-   python manage.py runsever
-   Then open http://127.0.0.1:8000 to check you connection is correct or not
+6. Run Development Server
+cd Online_garage
+python manage.py runserver
 
-7. App creation:
-   python manage.py startapp Garage
-   when we run manage.py with startapp then it will create a new folder with the name given and the resultant
-   directory look like:
-    myapp/
+
+Then open http://127.0.0.1:8000
+ to check the connection.
+
+📂 App Creation
+
+To create an app:
+
+python manage.py startapp Garage
+
+
+This will create a new folder Garage/ with the following structure:
+
+Garage/
 │── __init__.py
-│── admin.py      # Register models for Django admin
-│── apps.py       # App configuration
-│── models.py     # Database tables (classes)
-│── tests.py      # Unit tests
-│── views.py      # Logic for handling requests
-│── migrations/   # Database migration files
+│── admin.py         # Register models for Django admin
+│── apps.py          # App configuration
+│── models.py        # Database tables (classes)
+│── tests.py         # Unit tests
+│── views.py         # Logic for handling requests
+│
+└── migrations/      # Database migration files
+    └── __init__.py
 
+7. Add App to Installed Apps
 
+Inside settings.py, add your app:
 
- 
-8. After running the startapp command you have to add the Garage app into Installed Apps.
-
-  INSTALLED_APPS = [
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'garage_app',
+    'Garage',   # your app
 ]
 
-9. There are two more folders which we create for our app
-   I.  templates : This is for HTML files.
-   II. static    : This is for static files like css, javascript , images.
+📂 Extra Folders for App
 
-   The final directory look like:
-    python program/
+You should also create these folders inside your app:
+
+templates/ → for HTML files
+
+static/ → for static files (CSS, JavaScript, Images)
+
+📂 Final Project Directory
+python program/
 │
-├── Garage_Mania/         ← Virtual Environment
+├── Garage_Mania/             ← Virtual Environment
 │   ├── Include/
 │   ├── Lib/
 │   ├── Scripts/
 │   └── pyvenv.cfg
 │
-├── Online_garage/        ← Django Project folder
-│   ├── __init__.py    
-│   ├── settings.py     
-│   ├── urls.py        
-│   ├── wsgi.py        
-│   └── asgi.py        
-│──Garage/
-|   │── __init__.py
-|   │── templates
-|   │── static    
-|   │── admin.py      
-|   │── apps.py      
-|   │── models.py    
-|   │── tests.py     
-|   │── views.py      
-|   │── migrations/
-├── db.sqlite3            ← Django Database file
-├── manage.py             ← Django entry point
-
-
+├── Online_garage/            ← Django Project folder
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── Garage/                   ← App folder
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── views.py
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── templates/
+│   │   └── Garage/
+│   │       └── home.html
+│   └── static/
+│       └── Garage/
+│           ├── style.css
+│           └── script.js
+│
+├── db.sqlite3                ← Django Database file
+└── manage.py                 ← Django entry point
