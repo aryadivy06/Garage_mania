@@ -129,3 +129,89 @@ python program/
 │
 ├── db.sqlite3                ← Django Database file
 └── manage.py                 ← Django entry point
+
+
+✨ Features
+
+
+👤 For Users
+✅ Register & login securely.
+✅ Add and manage their vehicles (Bike, Car, Scooter, etc.).
+✅ Book services (Car Wash, AC Repair, Suspension, etc.) at registered garages.
+✅ Get email notifications when booking is confirmed or status is updated.
+✅ View booking history with status (Pending, In Progress, Completed, Cancelled).
+
+🛠️ For Service Providers (Garages)
+🏢 Register garage with details (name, phone, services offered, etc.).
+📋 View all service requests in a Garage Dashboard.
+🔄 Update service status (Pending → In Progress → Completed/Cancelled).
+📊 Track monthly statistics (Completed services, Pending requests, Unique customers).
+📧 Receive email notifications when a new booking is made.
+
+🛠️ Tech Stack
+Backend: Django 5.x (Python 3.11)
+Frontend: HTML5, CSS3, JavaScript (Vanilla + Django Templates)
+Database: SQLite (development)
+
+Email Service: Django’s built-in email backend (configured with SMTP, e.g., Gmail)
+Version Control: Git + GitHub
+Deployment Ready: WSGI (can be deployed on PythonAnywhere, Heroku, etc.)
+
+📧 Email Notifications
+We have configured Django’s EmailMessage to send notifications:
+✉️ To service providers → when a user books a service.
+✉️ To users → when the garage updates the booking status.
+
+
+
+📌 SMTP is used (e.g., Gmail). Credentials are stored in settings.py:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your_email@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_app_password'
+
+
+How It Works
+
+User Signup/Login
+Users register with details & add vehicles.
+
+Garage Signup
+Garages register with business info and available services.
+
+Book Service
+User selects garage → selects service → chooses vehicle → confirms booking.
+
+Notifications
+Garage receives email when a new service is booked.
+User gets an email when garage updates the status.
+
+Garage Dashboard
+Shows service requests (Pending/In Progress).
+Allows updating status.
+Displays service history and monthly statistics.
+
+
+
+Project Structure
+
+Garage_mania/
+│── Garage_Mania/          # Virtual Environment
+│── Online_garage/         # Django Project
+│   ├── settings.py        # Project settings
+│   ├── urls.py            # URL mappings
+│   ├── wsgi.py / asgi.py  # For deployment
+│
+│── Garage/                # Main App
+│   ├── models.py          # User, Vehicle, Garage, Booking models
+│   ├── views.py           # Business logic
+│   ├── templates/         # HTML templates
+│   ├── static/            # CSS, JS, Images
+│
+│── db.sqlite3             # Default DB
+│── manage.py              # Django CLI
+│── requirements.txt       # Dependencies
+│── README.md              # Documentation
+│── .gitignore             # Git ignore file
