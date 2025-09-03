@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <title>Service Provider Registration</title>
+</head>
+<body>
+    <!-- Navbar Section -->
+   <div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="frm">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h2>Service Provider Registration</h2>
+
+                <!-- Display form errors -->
+                {% if form.errors %}
+                <div class="error-box">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% if errors %}
+                                <li><strong>{{ field|capfirst }}:</strong> {{ errors|join:", " }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Business Info -->
+                <fieldset>
+                    <legend>Business Info</legend>
+                    {{ form.owner_name.label_tag }} {{ form.owner_name }}
+                    {{ form.garage_name.label_tag }} {{ form.garage_name }}
+                    {{ form.phone.label_tag }} {{ form.phone }}
+                    {{ form.email.label_tag }} {{ form.email }}
+                    {{ form.username.label_tag }} {{ form.username }}
+                    {{ form.password.label_tag }} {{ form.password }}
+                    {{ form.confirm_pass.label_tag }} {{ form.confirm_pass }}
+                </fieldset>
+
+                <!-- Garage Details -->
+                <fieldset>
+                    <legend>Garage Details</legend>
+                    {{ form.address.label_tag }} {{ form.address }}
+                    {{ form.location.label_tag }} {{ form.location }}
+                    {{ form.license_number.label_tag }} {{ form.license_number }}
+                    {{ form.experience.label_tag }} {{ form.experience }}
+                    {{ form.working_hours.label_tag }} {{ form.working_hours }}
+                </fieldset>
+
+                <!-- Services Offered -->
+                <fieldset>
+                    <legend>Services Offered</legend>
+                    {% for checkbox in form.services %}
+                        <label>
+                            {{ checkbox.tag }} {{ checkbox.choice_label }}
+                        </label>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Supported Vehicles -->
+                <fieldset>
+                    <legend>Supported Vehicles</legend>
+                    {% for checkbox in form.vehicles %}
+                        <label>
+                            {{ checkbox.tag }} {{ checkbox.choice_label }}
+                        </label>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Documents -->
+                <fieldset>
+                    <legend>Documents</legend>
+                    {{ form.id_proof.label_tag }} {{ form.id_proof }}
+                    {{ form.garage_logo.label_tag }} {{ form.garage_logo }}
+                </fieldset>
+
+                <!-- About Garage -->
+                <fieldset>
+                    <legend>About Garage</legend>
+                    {{ form.about.label_tag }} {{ form.about }}
+                </fieldset>
+
+                <!-- Submit -->
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="top"></div>
+        <div class="bottom"></div>
+    </footer>
+</body>
+</html>

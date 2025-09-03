@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/services1.css' %}">
+    <title>Services</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="nav">
+      <div class="bar">
+        <div class="left">
+          <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+          <p>Garage Mania</p>
+        </div>
+        <div class="right">
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% if normal_user %}
+              <li><a href="{% url 'logout_view' %}">Logout</a></li>
+              <li><a href="{% url 'services' %}">Services</a></li>
+              <li><a href="{% url 'aboutus' %}">About Us</a></li>
+            {% elif service_provider %}
+              <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+              <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+              <li><a href="{% url 'aboutus' %}">About Us</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'services' %}">Services</a></li>
+              <li><a href="{% url 'aboutus' %}">About Us</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Profile Icon -->
+      <div class="pro">
+        {% if normal_user %}
+          <a href="{% url 'user_profile' %}">
+            {% if normal_user.profile_p %}
+              <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+            {% else %}
+              <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+            {% endif %}
+          </a>
+        {% elif service_provider %}
+          <a href="{% url 'service_profile' %}">
+            {% if service_provider.garage_logo %}
+              <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+            {% else %}
+              <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+            {% endif %}
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}">
+            <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search">
+        <div class="elep"><p>Search</p></div>
+        <div class="ele">
+          <input type="text" placeholder="Enter your location">
+          <input type="submit" value="search">
+        </div>
+    </div>
+
+    <!-- Garages Section -->
+    <div class="garages">
+        <div class="na">Registered Garages</div>
+        <div class="boxes">
+            {% for garage in garages %}
+            <div class="box">
+                <div class="im">
+                    {% if garage.garage_logo %}
+                      <img src="{{ garage.garage_logo.url }}" alt="Garage Logo">
+                    {% else %}
+                      <img src="{% static 'images/garage_im.jpeg' %}" alt="Default Garage Image">
+                    {% endif %}
+                </div>
+                <div class="nam">{{ garage.garage_name }}</div>
+                <div class="con">📞 {{ garage.phone }}</div>
+                <div class="add">{{ garage.address }}</div>
+                <div class="book-btn">
+                    <!-- Clicking garage reloads services for that garage -->
+                    <a href="?garage_id={{ garage.id }}">
+                        <button>View Services</button>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No garages registered yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="services">
+        <div class="na">
+          {% if selected_garage_id %}
+            Services from {{ services_list.0.garage.garage_name }}
+          {% else %}
+            Available Services
+          {% endif %}
+        </div>
+        <div class="boxes">
+            {% for s in services_list %}
+            <div class="box">
+                <div class="im">
+                  <img src="{% static 'images/car_service/' %}{{ s.image }}" alt="{{ s.service_name }}">
+                </div>
+                <div class="nam">{{ s.service_name }}</div>
+                <div class="add">Provided by: {{ s.garage.garage_name }}<br>{{ s.garage.address }}</div>
+                <div class="book-btn">
+                  <a href="{% url 'book_service' s.garage.id s.service_name %}">
+                      <button>Book Service</button>
+                  </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% if not services_list %}
+              <p>No services listed yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- History Section -->
+    {% if user %}
+    <div class="history">
+        <div class="na">Your Booking History</div>
+        <div class="boxes">
+        {% if user.bookings.exists %}
+          {% for booking in user.bookings.all %}
+          <div class="box">
+              <div class="his-header">
+                  <strong>{{ booking.service_name }}</strong>
+                  <span class="date">{{ booking.date|date:"d/m/Y" }}</span>
+              </div>
+             <div class="his-body">
+    <div class="nam">{{ booking.garage.garage_name }}</div>
+    <div class="con">📞 {{ booking.garage.phone }}</div>
+    <div class="add">{{ booking.garage.address }}</div>
+    <div class="veh">🚗 Vehicle: {{ booking.vehicle.get_vehicle_type_display }} - {{ booking.vehicle.brand }} {{ booking.vehicle.model }} ({{ booking.vehicle.reg_number }})</div>
+    <div class="status">Status: {{ booking.status }}</div>
+</div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>You have no booking history.</p>
+        {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer>
+      <div class="top"></div>
+      <div class="bottom"></div>
+    </footer>
+</body>
+</html>

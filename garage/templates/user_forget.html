@@ -1,0 +1,133 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/forget1.css' %}">
+  <title>Forget Password</title>
+</head>
+<body>
+  <!-- Navbar Section -->
+  <div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+  <!-- Forget Password Section -->
+  <div class="container">
+    <div class="box">
+      <div class="im">
+        <img src="{% static 'images/login_logo.jpg' %}" alt="login_logo">
+      </div>
+      <div class="links">
+        <div class="input">
+          User Forget Password
+        </div>
+
+        <div class="frm">
+          <form id="forgetForm" method="post">
+            {% csrf_token %}
+
+            <!-- Email/Phone -->
+            <div class="usepas">
+              <label for="identifier">Email or Phone</label>
+              <input type="text" id="identifier" name="identifier" required>
+            </div>
+
+            <!-- OTP Request Button -->
+            <button type="button" class="otp-btn" onclick="requestOTP()">Request OTP</button>
+
+            <!-- OTP Section -->
+            <div id="otp-section" class="otp-section hidden">
+              <div class="usepas">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP">
+              </div>
+              <button type="button" class="verify-btn" onclick="verifyOTP()">Verify OTP</button>
+            </div>
+
+            <!-- Password Section -->
+            <div id="password-section" class="hidden">
+              <div class="usepas">  
+                <label for="password1">New Password</label>
+                <input type="password" id="password1" name="password1">
+              </div>
+
+              <div class="usepas">  
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" name="password2">
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button id="submit-btn" type="submit" class="hidden">Update Password</button>
+          </form>
+        </div>  
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="top"></div>
+    <div class="bottom"></div>
+  </footer>
+
+  <!-- JS for OTP Flow -->
+  <script src="{% static 'js/user_forget.js' %}"></script>
+</body>
+</html>

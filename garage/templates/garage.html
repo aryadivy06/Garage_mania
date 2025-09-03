@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/garage.css' %}">
+    <title>Services</title>
+</head>
+<body>
+     <!-- Navbar Section -->
+<div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+  <!-- Search Bar -->
+
+<div class="search">
+    <div class="elep">
+    <p>Search</p>
+    </div>
+    <div class="ele">
+    <input type="text" placeholder="Enter your location">
+    <input type="submit" value="search">
+   </div>
+   </div>
+
+<!-- Garage About Section -->
+<section class="garage-about">
+  <div class="container">
+    <div class="about-layout">
+      
+      <!-- LEFT SIDE: Owner / Manager -->
+      <div class="owner-box">
+        <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage Owner" class="owner-img">
+        <h3 class="owner-name">Rahul Sharma</h3>
+        <p class="owner-role">Garage Manager</p>
+      </div>
+
+      <!-- RIGHT SIDE: Garage Info -->
+      <div class="about-box">
+        <h1 class="hero-line">Where Expertise Meets Trust – Your Car, Our Priority.</h1>
+        <h2>Precision AutoCare Garage</h2>
+        <p>
+          Welcome to <strong>Precision AutoCare Garage</strong>, where we combine 
+          <strong>technical expertise, advanced tools, and personalized service</strong> 
+          to keep your vehicle in its best condition. With over 
+          <strong>10 years of trusted experience</strong>, we specialize in car servicing, 
+          mechanical repairs, diagnostics, and bodywork solutions.
+        </p>
+        <p>
+          At our garage, every vehicle is treated with <strong>care, transparency, and efficiency</strong>. 
+          Our certified technicians ensure that whether it’s a routine service or a complex repair, 
+          your car is back on the road safely and on time.
+        </p>
+
+        <ul class="services-list">
+          <li>✅ Complete vehicle servicing and maintenance</li>
+          <li>✅ Engine diagnostics and mechanical repairs</li>
+          <li>✅ Denting, painting & detailing services</li>
+          <li>✅ Genuine spare parts & accessories</li>
+          <li>✅ Quick turnaround with affordable pricing</li>
+        </ul>
+
+        <p class="mission">
+          Our mission is simple – <strong>to build long-term trust with our customers 
+          by delivering reliable, high-quality automotive care</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Services -->
+<div class="services">
+    <div class="service1 ser">
+        <div class="na">Service 1</div>
+        <div class="boxes">
+        <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div>
+    <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div>
+    </div></div>
+    <div class="service2 ser">
+         <div class="na">Service 2</div>
+         <div class="boxes">
+         <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div>
+    <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div></div></div>
+    <div class="service3 ser">
+         <div class="na">Service 3</div>
+         <div class="boxes">
+         <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div>
+    <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div></div></div>
+    <div class="service4 ser">
+         <div class="na">Service 4</div>
+         <div class="boxes">
+         <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div>
+    <div class="box">
+            <div class="im">
+                <img src="{% static 'images/garage_im.jpeg' %}" alt="Garage_image">
+            </div>
+            <div class="nam">Garage Name</div>
+            <div class="con">+91 1234567890</div>
+            <div class="add">Pal Properties Ayodhya Bypass K-sector Dhamkheda Bhopal</div>
+        </div></div></div>
+ </div>
+
+<!-- Trust Section -->
+<section class="trust-section">
+  <h2 class="hero-line">Connecting Garages and Customers – Simple, Trusted, Reliable</h2>
+  
+  <div class="trust-grid">
+    <div class="trust-box">
+      <div class="icon">🔍</div>
+      <h3>Verified Garages</h3>
+      <p>Every garage is checked and verified to ensure top quality and transparency.</p>
+    </div>
+    <div class="trust-box">
+      <div class="icon">⭐</div>
+      <h3>Real Reviews</h3>
+      <p>Genuine feedback from real customers helps you make confident choices.</p>
+    </div>
+    <div class="trust-box">
+      <div class="icon">⚡</div>
+      <h3>Easy Booking</h3>
+      <p>Book services in just a few clicks without endless calls or waiting.</p>
+    </div>
+    <div class="trust-box">
+      <div class="icon">💳</div>
+      <h3>Transparent Pricing</h3>
+      <p>No hidden charges – clear estimates and upfront details.</p>
+    </div>
+  </div>
+
+  <div class="ease-grid">
+    <div class="ease-box">
+      <h3>For Customers</h3>
+      <ul>
+        <li>📍 Search by location</li>
+        <li>🛠 Compare services</li>
+        <li>⏰ Save time with instant booking</li>
+        <li>📲 Access anytime, anywhere</li>
+      </ul>
+    </div>
+    <div class="ease-box">
+      <h3>For Garages</h3>
+      <ul>
+        <li>📢 Get more customers</li>
+        <li>📊 Manage services easily</li>
+        <li>💼 Build online reputation</li>
+        <li>⚡ Focus on work, we handle the tech</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ceo-note">
+    <h3>CEO’s Note</h3>
+    <p>“At GarageMania, our mission is to bridge the gap between garages and customers with trust and technology. Customers get peace of mind, and garages get the visibility they deserve.”</p>
+  </div>
+</section>
+
+
+
+<!-- Footer -->
+  <footer>
+    <div class="top"></div>
+    <div class="bottom"></div>
+  </footer>
+
+</body>
+</html>

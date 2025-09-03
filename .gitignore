@@ -1,0 +1,34 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+Garage_Mania/
+Lib/
+Scripts/
+bin/
+Include/
+*.egg-info/
+
+# SQLite database
+db.sqlite3
+
+# Django static and media files
+/media/
+staticfiles/
+*.log
+
+# Environment variables
+.env
+*.secret
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Backup / System files
+Thumbs.db

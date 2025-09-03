@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | GarageMania</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/aboutus_css.css' %}">
+</head>
+<body>
+     <!-- Navbar Section -->
+<div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+
+  <!-- Aboutus -->
+  <section class="about">
+    <div class="container">
+      <h1>About <span>GarageMania</span></h1>
+      <p class="intro">
+        Welcome to <b>GarageMania</b> – your trusted partner for all vehicle 
+        repair and maintenance needs. We connect customers with reliable 
+        garages and skilled mechanics nearby, making car care simple, fast, 
+        and hassle-free.
+      </p>
+
+      <div class="about-content">
+        <div class="about-text">
+          <h2>Who We Are</h2>
+          <p>
+            GarageMania is an innovative online platform built to solve the 
+            everyday problems vehicle owners face when searching for quality 
+            garages. With just a few clicks, you can book services, compare 
+            garages, and track your vehicle’s repair status in real time.
+          </p>
+
+          <h2>Our Mission</h2>
+          <p>
+            To revolutionize the garage service industry by offering 
+            transparency, trust, and technology-driven solutions. 
+            We aim to save your time, money, and effort by making 
+            vehicle servicing as smooth as possible.
+          </p>
+
+          <h2>Why Choose Us?</h2>
+          <ul>
+            <li>✔ Easy online booking</li>
+            <li>✔ Verified & trusted garages</li>
+            <li>✔ Affordable & transparent pricing</li>
+            <li>✔ Real-time updates on service</li>
+            <li>✔ 24/7 customer support</li>
+          </ul>
+        </div>
+
+        <div class="about-image">
+          <img src="{% static 'images/garage-team.png' %}" alt="GarageMania Team">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+   <section class="faq">
+  <h2>Frequently Asked Questions</h2>
+  
+  <div class="faq-item">
+    <button class="faq-question">Which cities does Garage Mania currently operate in?</button>
+    <div class="faq-answer">
+      <p>We proudly provide services in <strong>Indore and Bhopal</strong>. More cities will be added soon.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">How do I book a car service?</button>
+    <div class="faq-answer">
+      <p>Simply enter your <strong>location</strong>, choose the required service, and book a slot instantly through our website.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Do you offer doorstep car service?</button>
+    <div class="faq-answer">
+      <p>Yes, for selected services like <strong>car wash, AC service, and inspection</strong>, we provide on-site doorstep service (subject to availability in your city).</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Are the garages verified?</button>
+    <div class="faq-answer">
+      <p>All partner garages in <strong>Indore and Bhopal</strong> are verified and trusted, ensuring professional service with genuine parts.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">How do I pay for the service?</button>
+    <div class="faq-answer">
+      <p>You can pay securely online through our website or directly at the garage.</p>
+    </div>
+  </div>
+</section>
+<script src="{% static 'js/home.js' %}" > </script>
+
+  <footer>
+  <div class="top">
+
+  </div>
+  <div class="bottom">
+    
+  </div>
+</footer>
+</body>
+</html>

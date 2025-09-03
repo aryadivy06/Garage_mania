@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  {% load custom_filters %}
+  <link rel="stylesheet" href="{% static 'css/service_profile.css' %}">
+  <title>Service Provider Profile</title>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+  <!-- Profile Icon -->
+  <div class="pro">
+    <!-- Normal User -->
+    {% if user %}
+      <a href="{% url 'user_profile' %}">
+        {% if user.profile_p %}
+          <img src="{{ user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+
+    <!-- Service Provider -->
+    {% elif request.user.is_authenticated %}
+      <a href="{% url 'service_profile' %}">
+        {% if request.user.serviceprovidertable.garage_logo %}
+          <img src="{{ request.user.serviceprovidertable.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+
+    <!-- Guest -->
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- Profile Info -->
+<div class="container">
+  <div class="box">
+    <div class="im">
+      {% if provider.garage_logo %}
+        <img src="{{ provider.garage_logo.url }}" alt="Garage Logo" class="circle-img">
+      {% else %}
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      {% endif %}
+    </div>
+
+    <div class="pd">
+      <div class="left1"><h2>Garage Details</h2></div>
+      <div class="right1">
+
+        <!-- User Info -->
+        <div class="inp"><span>Username</span><div class="in">{{ user.username }}</div></div>
+        <div class="inp"><span>Email</span><div class="in">{{ user.email }}</div></div>
+
+        <!-- Service Provider Info -->
+        <div class="inp"><span>Owner Name</span><div class="in">{{ provider.owner_name }}</div></div>
+        <div class="inp"><span>Garage Name</span><div class="in">{{ provider.garage_name }}</div></div>
+        <div class="inp"><span>Phone</span><div class="in">{{ provider.phone }}</div></div>
+        <div class="inp"><span>Address</span><div class="in">{{ provider.address }}</div></div>
+        <div class="inp"><span>Location</span><div class="in">{{ provider.location }}</div></div>
+        <div class="inp"><span>License Number</span><div class="in">{{ provider.license_number }}</div></div>
+        <div class="inp"><span>Experience</span><div class="in">{{ provider.experience }} years</div></div>
+        <div class="inp"><span>Working Hours</span><div class="in">{{ provider.working_hours }}</div></div>
+
+        <!-- Services -->
+        <div class="inp">
+          <span>Services Offered</span>
+          <ul class="list">
+            {% if provider.services %}
+              {% for service in provider.services %}
+                <li>{{ service|format_name }}</li>
+              {% endfor %}
+            {% else %}
+              <li>No services selected.</li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <!-- Vehicles -->
+        <div class="inp">
+          <span>Supported Vehicles</span>
+          <ul class="list">
+            {% if provider.vehicles %}
+              {% for vehicle in provider.vehicles %}
+                <li>{{ vehicle|format_name }}</li>
+              {% endfor %}
+            {% else %}
+              <li>No vehicles selected.</li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div class="inp"><span>About</span><div class="in">{{ provider.about }}</div></div>
+
+        <!-- Edit Button -->
+        <div class="edit">
+          <a href="{% url 'service_edit' %}" class="edit-btn">Edit</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="top"></div>
+  <div class="bottom"></div>
+</footer>
+</body>
+</html>

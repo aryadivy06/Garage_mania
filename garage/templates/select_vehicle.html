@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/select_vehicle.css' %}">
+    <title>Select Vehicle</title>
+   
+</head>
+<body>
+    <div class="container">
+        <h2>Select Vehicle for {{ service_name }}</h2>
+        <p>Garage: {{ garage.garage_name }}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <label for="vehicle">Choose your vehicle:</label>
+            <select name="vehicle_id" id="vehicle" required>
+                {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.id }}">
+                        {{ vehicle.get_vehicle_type_display }} - {{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.reg_number }})
+                    </option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+</body>
+</html>

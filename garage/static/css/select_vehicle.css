@@ -1,0 +1,82 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Page Background */
+body {
+    background: #f4f7fb;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container Card */
+.container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Headings */
+.container h2 {
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Form Elements */
+form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #444;
+}
+
+form select {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Button */
+form button {
+    padding: 12px 20px;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+form button:hover {
+    background: #0056b3;
+}

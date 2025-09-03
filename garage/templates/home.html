@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Garage Mania</title>
+</head>
+<body>
+
+    <!-- Navbar Section -->
+    <div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+
+        <!-- Normal User Logged In -->
+        {% if normal_user %}
+          <li><a href="{% url 'logout_view' %}">Logout</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Service Provider Logged In -->
+        {% elif service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+
+        <!-- Guest -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if normal_user %}
+      <a href="{% url 'user_profile' %}">
+        {% if normal_user.profile_p %}
+          <img src="{{ normal_user.profile_p.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% elif service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+    <!-- Search Image Section -->
+    <div class="search">
+        <div class="elep">
+            <p>Where Do You Want Car Service ?</p>
+        </div>
+        <div class="ele">
+            <input type="text" placeholder="Enter your location">
+            <input type="submit" value="search">
+        </div>
+    </div>
+
+    <!-- Image and Details Section -->
+    <div class="poster">
+        <div class="im">
+            <img src="{% static 'images/poster.png' %}" alt="Garage Mania Poster">
+        </div>
+        <div class="detail">
+            <span>Garage Mania – We Bring the Garage to You, Anytime, Anywhere.</span>
+        </div>
+    </div>
+
+    <!-- How we work -->
+    <section class="how-we-work">
+        <div class="content">
+            <h2>How We Work</h2>
+            <p>At <strong>Garage Mania</strong>, we make car servicing simple, fast, and convenient. Whether you’re at home, at work, or on the go, our platform connects you to trusted garages nearby.</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <h3>1. Find Your Garage</h3>
+                    <p>Search for garages in your area or let us recommend the nearest trusted service centers. You get a list of verified garages with ratings, services, and pricing.</p>
+                </div>
+                <div class="step">
+                    <h3>2. Choose a Service</h3>
+                    <p>Select the service your vehicle needs—from routine maintenance to major repairs. View estimated costs, service details, and availability in real-time.</p>
+                </div>
+                <div class="step">
+                    <h3>3. Book Instantly</h3>
+                    <p>Pick a time slot that fits your schedule. Our platform allows instant booking without the hassle of calling multiple garages.</p>
+                </div>
+                <div class="step">
+                    <h3>4. Service at Your Convenience</h3>
+                    <p>Drive to the garage or request on-site service (if available). Our partnered garages ensure professional service, genuine parts, and a transparent process.</p>
+                </div>
+                <div class="step">
+                    <h3>5. Payment Made Easy</h3>
+                    <p>Pay securely online or at the garage. Multiple payment options available for your convenience.</p>
+                </div>
+                <div class="step">
+                    <h3>6. Track & Review</h3>
+                    <p>Track the progress of your service and leave feedback to help others make informed choices.</p>
+                </div>
+            </div>
+
+            <p class="slogan"><strong>Garage Mania – We Bring the Garage to You, Anytime, Anywhere.</strong></p>
+        </div>
+        <div class="image">
+            <img src="{% static 'images/nearby_search.png' %}" alt="Nearby Search">
+        </div>
+    </section>
+
+    <!-- Services -->
+    <a href="{% url 'services' %}">
+        <section class="services">
+            <h1>Our Services</h1>
+            <div class="service">
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/ac.jpg' %}" alt="AC Service">
+                    </div>
+                    <div class="ser_name"><span>AC SERVICE</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/carwash.jpg' %}" alt="Car Wash">
+                    </div>
+                    <div class="ser_name"><span>CAR WASH</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/clutch.jpg' %}" alt="Clutch & Body Parts">
+                    </div>
+                    <div class="ser_name"><span>CLUTCH & BODY PARTS</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/dent.png' %}" alt="PDR Service">
+                    </div>
+                    <div class="ser_name"><span>PDR SERVICE</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/detailing.jpg' %}" alt="Detailing Service">
+                    </div>
+                    <div class="ser_name"><span>DETAILING SERVICE</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/inspection.jpg' %}" alt="Car Inspection">
+                    </div>
+                    <div class="ser_name"><span>CAR INSPECTION</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/suspension.jpg' %}" alt="Suspension Service">
+                    </div>
+                    <div class="ser_name"><span>SUSPENSION SERVICE</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/tyres.jpg' %}" alt="Tyres & Wheel Care">
+                    </div>
+                    <div class="ser_name"><span>TYRES AND WHEEL CARE</span></div>
+                </div>
+                <div class="box">
+                    <div class="imag">
+                        <img src="{% static 'images/car_service/windshield.jpg' %}" alt="Windshield & Lighting">
+                    </div>
+                    <div class="ser_name"><span>WINDSHIELD & LIGHTING</span></div>
+                </div>
+            </div>
+        </section>
+    </a>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <button class="faq-question">Which cities does Garage Mania currently operate in?</button>
+            <div class="faq-answer">
+                <p>We proudly provide services in <strong>Indore and Bhopal</strong>. More cities will be added soon.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How do I book a car service?</button>
+            <div class="faq-answer">
+                <p>Simply enter your <strong>location</strong>, choose the required service, and book a slot instantly through our website.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Do you offer doorstep car service?</button>
+            <div class="faq-answer">
+                <p>Yes, for selected services like <strong>car wash, AC service, and inspection</strong>, we provide on-site doorstep service (subject to availability in your city).</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Are the garages verified?</button>
+            <div class="faq-answer">
+                <p>All partner garages in <strong>Indore and Bhopal</strong> are verified and trusted, ensuring professional service with genuine parts.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How do I pay for the service?</button>
+            <div class="faq-answer">
+                <p>You can pay securely online through our website or directly at the garage.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'js/home.js' %}"></script>
+
+    <footer>
+        <div class="top"></div>
+        <div class="bottom"></div>
+    </footer>
+</body>
+</html>

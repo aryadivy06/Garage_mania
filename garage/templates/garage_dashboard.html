@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garage Dashboard</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/garage_dashboard.css' %}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="nav">
+  <div class="bar">
+    <div class="left">
+      <img src="{% static 'images/logo.png' %}" alt="Garage Mania Logo">
+      <p>Garage Mania</p>
+    </div>
+
+    <div class="right">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        {% if service_provider %}
+          <li><a href="{% url 'service_provider_logout' %}">Logout</a></li>
+          <li><a href="{% url 'garage_dashboard' %}">Garage Dashboard</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'aboutus' %}">About Us</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Profile Icon -->
+  <div class="pro">
+    {% if service_provider %}
+      <a href="{% url 'service_profile' %}">
+        {% if service_provider.garage_logo %}
+          <img src="{{ service_provider.garage_logo.url }}" alt="Profile Picture" class="circle-img">
+        {% else %}
+          <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+        {% endif %}
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        <img src="{% static 'images/profile.jpeg' %}" alt="Profile Picture" class="circle-img">
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- ✅ Dashboard -->
+<main class="dashboard">
+
+  <!-- Customer Requests -->
+  <section class="requests">
+    <h2>Customer Requests</h2>
+    <div class="request-list">
+      {% for booking in bookings %}
+        {% if booking.status == "Pending" or booking.status == "In Progress" %}
+        <div class="request-card">
+          <p><strong>Customer:</strong> {{ booking.user.name }} (📞 {{ booking.user.contact_no }})</p>
+          <p><strong>Service:</strong> {{ booking.service_name }}</p>
+          <p><strong>Vehicle:</strong> {{ booking.vehicle.brand }} {{ booking.vehicle.model }} ({{ booking.vehicle.reg_number }})</p>
+          <p><strong>Date:</strong> {{ booking.date|date:"d M Y H:i" }}</p>
+
+          <!-- Update Status Form -->
+          <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+  {% csrf_token %}
+  <label for="status-{{ booking.id }}"><strong>Update Status:</strong></label>
+  <select name="status" id="status-{{ booking.id }}">
+    {% for key, value in booking.STATUS_CHOICES %}
+      <option value="{{ key }}" {% if booking.status == key %}selected{% endif %}>{{ value }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Update</button>
+</form>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p>No new service requests.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Previous Services -->
+  <section class="history">
+    <h2>Previous Services</h2>
+    <div class="history-list">
+      {% for booking in bookings %}
+        {% if booking.status == "Completed" or booking.status == "Cancelled" %}
+        <div class="history-card">
+          <p><strong>Customer:</strong> {{ booking.user.name }}</p>
+          <p><strong>Service:</strong> {{ booking.service_name }}</p>
+          <p><strong>Date:</strong> {{ booking.date|date:"d M Y H:i" }}</p>
+          <p><strong>Status:</strong> {{ booking.status }}</p>
+        </div>
+        {% endif %}
+      {% empty %}
+        <p>No completed or cancelled services yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Monthly Stats -->
+  <section class="stats">
+    <h2>Monthly Statistics</h2>
+    <div class="stats-box">
+      <div class="stat-card">
+        <h3>{{ completed_count }}</h3>
+        <p>Services Completed</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ pending_count }}</h3>
+        <p>Pending / In Progress</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ customers_count }}</h3>
+        <p>Unique Customers</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="top"></div>
+  <div class="bottom"></div>
+</footer>
+</body>
+</html>
