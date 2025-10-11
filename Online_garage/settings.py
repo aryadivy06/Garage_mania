@@ -151,5 +151,5 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = "qhoc gkuj kpqp wihv"  # Not Gmail password, App Password
+EMAIL_HOST_PASSWORD = "qhoc ____ ____ ____"  # Not Gmail password, App Password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
